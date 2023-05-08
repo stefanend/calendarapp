@@ -4,11 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Interviewer {
+
+    @Transient
+    public static final String SEQUENCE_NAME = "interviewer_sequence";
 
     @Id
     private int id;
@@ -16,6 +20,8 @@ public class Interviewer {
     private String firstName;
 
     private String lastName;
+
+    private String email;
 
     private boolean isExperienced;
 }
