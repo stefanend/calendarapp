@@ -1,25 +1,25 @@
 package com.example.CalendarApp.service;
 
 import com.example.CalendarApp.domain.model.Appointment;
-import com.example.CalendarApp.domain.repository.InterviewRepository;
+import com.example.CalendarApp.domain.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class InterviewServiceImpl implements InterviewService {
+public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
-    private InterviewRepository interviewRepository;
+    private AppointmentRepository appointmentRepository;
 
     @Override
-    public Appointment insertInterview(Appointment appointment) {
-        return interviewRepository.insert(appointment);
+    public Appointment insertAppointment(Appointment appointment) {
+        return appointmentRepository.insert(appointment);
     }
 
     @Override
-    public List<Appointment> getInterviews() {
-        return interviewRepository.findAll();
+    public List<Appointment> getAppointments() {
+        return appointmentRepository.findAll();
     }
 }

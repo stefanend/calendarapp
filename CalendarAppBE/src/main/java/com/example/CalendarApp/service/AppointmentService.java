@@ -4,8 +4,8 @@ import com.example.CalendarApp.domain.model.Appointment;
 
 import java.util.List;
 
-public interface InterviewService {
+public interface AppointmentService {
 
-    public List<Appointment> getInterviews();
-    public Appointment insertInterview(Appointment appointment);
+    public List<Appointment> getAppointments();
+    public Appointment insertAppointment(Appointment appointment);
 }
