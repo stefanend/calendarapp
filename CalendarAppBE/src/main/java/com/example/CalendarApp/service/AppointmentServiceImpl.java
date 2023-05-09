@@ -5,6 +5,7 @@ import com.example.CalendarApp.domain.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,5 +22,10 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public List<Appointment> getAppointments() {
         return appointmentRepository.findAll();
+    }
+
+    @Override
+    public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate) {
+        return appointmentRepository.findAppointmentsInDateRange(startDate, endDate);
     }
 }

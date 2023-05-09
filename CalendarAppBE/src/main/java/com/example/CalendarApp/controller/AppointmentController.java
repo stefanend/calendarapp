@@ -4,13 +4,16 @@ import com.example.CalendarApp.domain.model.Appointment;
 import com.example.CalendarApp.service.AppointmentService;
 import com.example.CalendarApp.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -19,9 +22,19 @@ public class AppointmentController {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
-    @GetMapping("/interviews")
+    @GetMapping
     public ResponseEntity<List<Appointment>> getInterviews() {
         return ResponseEntity.ok(appointmentService.getAppointments());
+    }
+
+    @GetMapping("/date")
+    public ResponseEntity<List<Appointment>> getAppointmentsByDateRange(@RequestParam("startDate")
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                        Date startDate,
+                                                                        @RequestParam("endDate")
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                        Date endDate) {
+        return ResponseEntity.ok(appointmentService.getAppointmentsInDateRange(startDate, endDate));
     }
 
     @PostMapping("/insert")
