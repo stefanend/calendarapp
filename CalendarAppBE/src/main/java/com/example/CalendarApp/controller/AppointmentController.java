@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
+@CrossOrigin(origins = "*")
 public class AppointmentController {
 
     @Autowired
@@ -37,7 +38,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.getAppointmentsInDateRange(startDate, endDate));
     }
 
-    @PostMapping("/insert")
+    @PostMapping
     public ResponseEntity<Appointment> insertInterview(@RequestBody Appointment appointment) {
         appointment.setId(sequenceGeneratorService.getSequenceNumber(Appointment.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
