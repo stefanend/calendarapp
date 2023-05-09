@@ -1,5 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import Appointment from './components/Appointment';
+
+//for testing the Appointment component
+// const tmpAppointment = {
+//   id: 1,
+//   day: new Date(Date.now()),
+//   candidate: {
+//     id: 2,
+//     firstName: 'Pera',
+//     lastName: 'Peric',
+//     email: 'pera.peric@gmail.com'
+//   },
+//   interviewers: [{
+//     id: 4,
+//     firstName: 'Marko',
+//     lastName: 'Markovic',
+//     email: 'marko.markovic@endava.com',
+//     isExperienced: true
+//   },
+//   {
+//     id: 7,
+//     firstName: 'Marija',
+//     lastName: 'Maric',
+//     email: 'marija.maric@endava.com',
+//     isExperienced: false
+//   }]
+// };
 
 function App() {
   return (
@@ -17,6 +44,7 @@ function App() {
         >
           Learn React
         </a>
+        {/* <Appointment appointment={tmpAppointment}/> */}
       </header>
     </div>
   );
