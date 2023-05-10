@@ -1,25 +1,21 @@
-import { Box, Card, CardContent, Typography } from "@mui/material";
+import { Box, Card, CardContent, Typography, TextField, InputLabel } from "@mui/material";
 
 const Appointment = ({appointment}) => {
     return (
         <div>
-            <Card>
+            <Card sx={{ width: '30%', height:'15%' }}>
                 <CardContent>
-                    <Typography variant="h5" sx={{ mb: 0.5, fontStyle: 'italic', fontSize: '14pt' }} component="div">
-                        { appointment.candidate.firstName } { appointment.candidate.lastName }
+                    <Typography variant="h5" sx={{ mb: 0, mr: 10, float: 'left', fontStyle: 'italic', fontSize: '14pt', border:'none'}} component="div">
+                        <TextField id="outlined-search" label="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }}}/>
                     </Typography>
                     <Box sx={{textAlign: "left"}}>
-                    <Typography sx={{ mb: 0.2, fontSize: '11pt' }} color="text.secondary">
-                        Experienced interviewer: 
-                        <Box display={'inline'} sx={{color: "black", ml: 0.3}}>
-                            { appointment.interviewers.filter(i => i.isExperienced)[0].firstName } 
-                        </Box>
+                    <Typography sx={{ mt: 0.5, fontSize: '12pt' }} color="text.secondary">
+                        <label display="inline-block">Experienced interviewer: </label>
+                        <input type="text" style={{border:"none"}}/>
                     </Typography>
-                    <Typography color="text.secondary" sx={{ fontSize: '11pt'}}>
-                        Inexperienced interviewer: 
-                        <Box display={'inline'} sx={{color: "black", ml: 0.3}}>
-                            { appointment.interviewers.filter(i => !i.isExperienced)[0].firstName }
-                        </Box>
+                    <Typography color="text.secondary" sx={{ fontSize: '12pt'}}>
+                        <label display="inline-block">Inexperienced interviewer: </label>
+                        <input type="text" style={{border:"none"}} />
                     </Typography>
                     </Box>
                 </CardContent>
