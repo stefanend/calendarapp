@@ -3,6 +3,8 @@ import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
+import Appointment from './Appointment';
+import { Stack } from '@mui/material';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -34,6 +36,10 @@ export default function ResponsiveGrid() {
     .then(groupedAppointments => {
       setAppointments(groupedAppointments);
     })
+  };
+
+  const formatTime = (date) => {
+    return date.toISOString().substring(11, 16);
   };
 
   const groupAppointmentsByDay = (rawAppointments) => {
@@ -78,7 +84,10 @@ export default function ResponsiveGrid() {
             { appointmentDay.map(appointment => {
               return(  
               <Box key={appointment.id}>
-                <Item>{ appointment.id }</Item>
+                <Item>
+                  <span> { formatTime(new Date(appointment.day)) } </span>
+                  <Appointment appointment={appointment}/>
+                </Item>
                 <br/>
               </Box>
               )

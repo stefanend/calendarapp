@@ -8,6 +8,5 @@ import java.util.Date;
 import java.util.List;
 
 public interface AppointmentRepository extends MongoRepository<Appointment, Integer> {
-    @Query("{ $and: [{ 'day': { $gte: ?0 } }, { 'day': { $lt: ?1 } }] }")
-    List<Appointment> findAppointmentsInDateRange(Date startDate, Date endDate);
+    List<Appointment> findByDayBetweenOrderByDayAsc(Date startDate, Date endDate);
 }

@@ -26,6 +26,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate) {
-        return appointmentRepository.findAppointmentsInDateRange(startDate, endDate);
+        return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate);
     }
 }

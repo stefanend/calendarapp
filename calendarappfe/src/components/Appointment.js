@@ -3,9 +3,9 @@ import { Box, Card, CardContent, Typography, TextField, InputLabel } from "@mui/
 const Appointment = ({appointment}) => {
     return (
         <div>
-            <Card sx={{ width: '30%', height:'15%' }}>
+            <Card sx={{ width: '100%', height:'15%' }}>
                 <CardContent>
-                    <Typography variant="h5" sx={{ mb: 0, mr: 10, float: 'left', fontStyle: 'italic', fontSize: '14pt', border:'none'}} component="div">
+                    <Typography variant="h5" sx={{ mb: 0, float: 'left', fontStyle: 'italic', fontSize: '14pt', border:'none'}} component="div">
                         <TextField id="outlined-search" label="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }}}/>
                     </Typography>
                     <Box sx={{textAlign: "left"}}>
