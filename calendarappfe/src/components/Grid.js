@@ -42,14 +42,13 @@ export default function ResponsiveGrid() {
   };
 
   const groupAppointmentsByDay = (rawAppointments) => {
+    // one list for each weekday
+    let startArray = Array.of([], [], [], [], []);
     const groupedAppointments = rawAppointments.reduce((accumulator, currentValue) => {
       let currentDate = new Date(currentValue.day);
-      if(!accumulator[currentDate.getDay() - 1]) {
-        accumulator[currentDate.getDay() - 1] = [];
-      }
       accumulator[currentDate.getDay() - 1].push(currentValue); 
       return accumulator;
-    }, Array(5));
+    }, startArray);
     return groupedAppointments;
   };
 
