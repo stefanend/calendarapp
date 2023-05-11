@@ -5,8 +5,6 @@ import com.example.CalendarApp.domain.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,18 +27,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate) {
-        List<Appointment> byDayBetweenOrderByDayAsc = appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate);
-        byDayBetweenOrderByDayAsc.stream().map(byDayBetweenOrderByDayAsc1 ->
-                byDayBetweenOrderByDayAsc1.getDay().getMinutes())
-                .forEach(byDayBetweenOrderByDayAsc1 -> System.out.println(byDayBetweenOrderByDayAsc1));
-
-        System.out.println(byDayBetweenOrderByDayAsc
-                .stream()
-                .filter(byDayBetweenOrderByDayAsc1 ->
-                        byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 > 9
-                                && byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 < 17).collect(Collectors.toList()).size());
-
-        return byDayBetweenOrderByDayAsc
+        return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate)
                 .stream()
                 .filter(byDayBetweenOrderByDayAsc1 ->
                         byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 > 9
