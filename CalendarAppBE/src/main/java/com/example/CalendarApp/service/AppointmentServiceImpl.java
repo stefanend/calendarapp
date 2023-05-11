@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -26,6 +27,13 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate) {
-        return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate);
+        return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate)
+                .stream()
+                .filter(byDayBetweenOrderByDayAsc1 ->
+                        byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 > 9
+                && byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 < 17
+                && (byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 0
+                                || byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 30))
+                .collect(Collectors.toList());
     }
 }
