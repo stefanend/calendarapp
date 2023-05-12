@@ -1,12 +1,14 @@
 package com.example.CalendarApp.service;
 
 import com.example.CalendarApp.domain.model.Appointment;
+import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.domain.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,5 +37,18 @@ public class AppointmentServiceImpl implements AppointmentService {
                 && (byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 0
                                 || byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 30))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Appointment insertCandidate(Date day, Candidate candidate) {
+        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findByDay(day)
+                .orElseThrow(() -> new RuntimeException("Appointment not found")
+                ));
+
+        List<Candidate> candidates = appointment.get().getCandidates();
+        candidates.add(candidate);
+        appointment.get().setCandidates(candidates);
+
+        return appointmentRepository.save(appointment.get());
     }
 }

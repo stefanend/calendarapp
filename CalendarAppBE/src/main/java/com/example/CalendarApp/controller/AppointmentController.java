@@ -1,6 +1,7 @@
 package com.example.CalendarApp.controller;
 
 import com.example.CalendarApp.domain.model.Appointment;
+import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.service.AppointmentService;
 import com.example.CalendarApp.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +43,10 @@ public class AppointmentController {
     public ResponseEntity<Appointment> insertInterview(@RequestBody Appointment appointment) {
         appointment.setId(sequenceGeneratorService.getSequenceNumber(Appointment.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
+    }
+
+    @PostMapping
+    public ResponseEntity<Appointment> insertCandidate(@PathVariable Date day, @RequestBody Candidate candidate) {
+        return ResponseEntity.ok(appointmentService.insertCandidate(day, candidate));
     }
 }
