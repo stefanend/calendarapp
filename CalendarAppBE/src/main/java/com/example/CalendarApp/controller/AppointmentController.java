@@ -45,7 +45,7 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
     }
 
-    @PostMapping
+    @PostMapping("/candidate")
     public ResponseEntity<Appointment> insertCandidate(@PathVariable Date day, @RequestBody Candidate candidate) {
         return ResponseEntity.ok(appointmentService.insertCandidate(day, candidate));
     }
