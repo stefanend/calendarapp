@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Appointment from './Appointment';
+import Calendar from './Calendar';
+import dayjs from 'dayjs';
+import Button from '@mui/material/Button';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -15,16 +18,32 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function ResponsiveGrid() {
   const [appointments, setAppointments] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [weekStart, setWeekStart] = useState(dayjs(Date.now()));
+  const [weekEnd, setWeekEnd] = useState(dayjs(Date.now()));
+
+  const handlePopoverClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCalendarPopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const calendarPopoverOpen = Boolean(anchorEl);
+  const popoverId = calendarPopoverOpen ? 'simple-popover' : undefined;
   
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   
-  const getAppointmentsForWeek = () => {
-    let currentDate = new Date();
-    let startDate = new Date();
-    startDate.setDate(currentDate.getDate() - startDate.getDay() + 1);
-    let endDate = new Date();
-    endDate.setDate(startDate.getDate() + 6);
+  const getAppointmentsForWeek = (selectedDay) => {
+    const startDate = selectedDay.startOf('week');
+    const endDate = selectedDay.endOf('week');
+    setWeekStart(startDate);
+    setWeekEnd(endDate);
   
+    console.log(selectedDay.startOf('week').toDate());
+    console.log(selectedDay.endOf('week').toDate());
+
     fetch(`http://localhost:8080/api/appointments/date?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`, { method: 'GET' })
     .then(response => {
       return response.json();
@@ -53,7 +72,7 @@ export default function ResponsiveGrid() {
   };
 
   useEffect(() => {
-    getAppointmentsForWeek();    
+    getAppointmentsForWeek(dayjs(Date.now()));    
   },[]);
 
   return (
@@ -61,7 +80,20 @@ export default function ResponsiveGrid() {
         <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 2, sm: 2, md: 1 }}>
         {Array.from(Array(1)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item>Self scheduling calendar - weekly</Item>
+            <Item>
+              <div>Self scheduling calendar - weekly</div>
+              <br/>
+            <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick}>
+              { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
+            </Button>
+            <Calendar 
+              id={popoverId} 
+              open={calendarPopoverOpen} 
+              anchorEl={anchorEl} 
+              getAppointmentsForWeek={getAppointmentsForWeek}
+              handleClose={handleCalendarPopoverClose} 
+            />
+            </Item>
           </Grid>
         ))}
       </Grid>
@@ -74,10 +106,10 @@ export default function ResponsiveGrid() {
 
         ))}
 
-        {appointments?.map((appointmentDay) => {
+        {appointments?.map((appointmentDay, index) => {
           return (
 
-          <Grid item xs={2} sm={4} md={4}>
+          <Grid item xs={2} sm={4} md={4} key={index}>
             
             { appointmentDay.map(appointment => {
               return(  

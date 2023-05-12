@@ -1,6 +1,5 @@
 import logo from './logo.svg';
 import './App.css';
-import Appointment from './components/Appointment';
 import ResponsiveGrid from './components/Grid';
 
 //for testing the Appointment component
