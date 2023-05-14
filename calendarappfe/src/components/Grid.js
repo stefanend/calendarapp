@@ -80,7 +80,7 @@ export default function ResponsiveGrid() {
         <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 2, sm: 2, md: 1 }}>
         {Array.from(Array(1)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item>
+            <Item sx={{background: "#0000CD", color: "white",fontSize: "20pt",fontWeight: "bold"}}>
               <div>Self scheduling calendar - weekly</div>
               <br/>
             <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick}>
@@ -101,7 +101,7 @@ export default function ResponsiveGrid() {
       <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 2, sm: 2, md: 20 }}>
         {Array.from(Array(5)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item>{ daysOfWeek[index] }</Item>
+            <Item sx={{background: "#1E90FF", color: "white", fontWeight: "bold"}}>{ daysOfWeek[index] }</Item>
           </Grid>
 
         ))}
