@@ -3,6 +3,7 @@ package com.example.CalendarApp.domain.repository;
 import com.example.CalendarApp.domain.model.Appointment;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;

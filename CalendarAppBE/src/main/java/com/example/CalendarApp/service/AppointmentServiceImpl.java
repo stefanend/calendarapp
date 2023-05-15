@@ -6,6 +6,7 @@ import com.example.CalendarApp.domain.repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +42,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment insertCandidate(Date day, Candidate candidate) {
+        List<Appointment> all = appointmentRepository.findAll();
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findByDay(day)
                 .orElseThrow(() -> new RuntimeException("Appointment not found")
                 ));
