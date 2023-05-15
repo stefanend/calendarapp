@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -31,22 +32,25 @@ public class AppointmentController {
 
     @GetMapping("/date")
     public ResponseEntity<List<Appointment>> getAppointmentsByDateRange(@RequestParam("startDate")
-                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                         Date startDate,
                                                                         @RequestParam("endDate")
-                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                         Date endDate) {
         return ResponseEntity.ok(appointmentService.getAppointmentsInDateRange(startDate, endDate));
     }
 
     @PostMapping
-    public ResponseEntity<Appointment> insertInterview(@RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> insertAppointment(@RequestBody Appointment appointment) {
         appointment.setId(sequenceGeneratorService.getSequenceNumber(Appointment.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
     }
 
     @PostMapping("/candidate")
-    public ResponseEntity<Appointment> insertCandidate(@PathVariable Date day, @RequestBody Candidate candidate) {
+    public ResponseEntity<Appointment> insertCandidate(@RequestParam("day")
+                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                       Date day,
+                                                       @RequestBody Candidate candidate) {
         return ResponseEntity.ok(appointmentService.insertCandidate(day, candidate));
     }
 }
