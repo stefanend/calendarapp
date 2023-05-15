@@ -40,12 +40,12 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Appointment> insertInterview(@RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> insertAppointment(@RequestBody Appointment appointment) {
         appointment.setId(sequenceGeneratorService.getSequenceNumber(Appointment.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
     }
 
-    @PostMapping("/candidate")
+    @PostMapping("/candidate/{day}")
     public ResponseEntity<Appointment> insertCandidate(@PathVariable Date day, @RequestBody Candidate candidate) {
         return ResponseEntity.ok(appointmentService.insertCandidate(day, candidate));
     }
