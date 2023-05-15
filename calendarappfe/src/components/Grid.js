@@ -56,18 +56,28 @@ export default function ResponsiveGrid() {
     })
   };
 
-  const formatTime = (date) => {
-    return date.toISOString().substring(11, 16);
-  };
-
   const groupAppointmentsByDay = (rawAppointments) => {
     // one list for each weekday
     let startArray = Array.of([], [], [], [], []);
-    const groupedAppointments = rawAppointments.reduce((accumulator, currentValue) => {
-      let currentDate = new Date(currentValue.day);
-      accumulator[currentDate.getDay() - 1].push(currentValue); 
+    const groupedAppointments = rawAppointments.reduce((accumulator, appointment) => {
+      let currentDate = new Date(appointment.day);
+      accumulator[currentDate.getDay() - 1].push(appointment); 
       return accumulator;
     }, startArray);
+    return groupedAppointments;
+  };
+  
+  const groupAppointmentsByHour = (appointmentDay) => {
+    const groupedAppointments = appointmentDay.reduce((accumulator, appointment) => {
+      let currentDate = new Date(appointment.day);
+      let currentTime = currentDate.toISOString().substring(11, 16);
+      if(!accumulator[currentTime]) {
+        accumulator[currentTime] = [];
+      }
+
+      accumulator[currentTime].push(appointment); 
+      return accumulator;
+    }, {});
     return groupedAppointments;
   };
 
@@ -80,7 +90,7 @@ export default function ResponsiveGrid() {
         <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 2, sm: 2, md: 1 }}>
         {Array.from(Array(1)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
-            <Item sx={{background: "#0000CD", color: "white",fontSize: "20pt",fontWeight: "bold"}}>
+            <Item sx={{background: "#005693", color: "white",fontSize: "20pt",fontWeight: "bold"}}>
               <div>Self scheduling calendar - weekly</div>
               <br/>
             <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick}>
@@ -111,12 +121,21 @@ export default function ResponsiveGrid() {
 
           <Grid item xs={2} sm={4} md={4} key={index}>
             
-            { appointmentDay.map(appointment => {
-              return(  
-              <Box key={appointment.id}>
+            { Object.entries(groupAppointmentsByHour(appointmentDay)).map((appointmentHours, index) => {
+              return(
+              <Box key={index}>
                 <Item>
-                  <span> { formatTime(new Date(appointment.day)) } </span>
-                  <Appointment appointment={appointment}/>
+                  <div style={{marginTop: '-10px'}}> { appointmentHours[0] } </div>
+                  { appointmentHours[1].map((appointment, index) => {
+                    return (
+                      <div>
+                      { index === 0 
+                        ? <Appointment appointment={appointment}/>
+                        : <div style={{marginTop: '10px'}}><Appointment appointment={appointment}/></div>
+                      }
+                      </div>
+                    )
+                  }) }
                 </Item>
                 <br/>
               </Box>
