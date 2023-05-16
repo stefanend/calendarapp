@@ -21,7 +21,5 @@ public class Interviewer {
 
     private String lastName;
 
-    private String email;
-
-    private boolean isExperienced;
+    private boolean experienced;
 }

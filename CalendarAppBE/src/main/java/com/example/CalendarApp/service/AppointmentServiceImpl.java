@@ -2,11 +2,12 @@ package com.example.CalendarApp.service;
 
 import com.example.CalendarApp.domain.model.Appointment;
 import com.example.CalendarApp.domain.model.Candidate;
+import com.example.CalendarApp.domain.model.Interviewer;
 import com.example.CalendarApp.domain.repository.AppointmentRepository;
+import com.example.CalendarApp.domain.repository.InterviewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
     private AppointmentRepository appointmentRepository;
+
+    @Autowired
+    private InterviewerRepository interviewerRepository;
 
     @Override
     public Appointment insertAppointment(Appointment appointment) {
@@ -49,6 +53,19 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Candidate> candidates = appointment.get().getCandidates();
         candidates.add(candidate);
         appointment.get().setCandidates(candidates);
+
+        return appointmentRepository.save(appointment.get());
+    }
+
+    @Override
+    public Appointment insertInterviewer(int id, Interviewer interviewer) {
+        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Appointment not found")
+                ));
+
+        List<Interviewer> interviewers = appointment.get().getInterviewers();
+        interviewers.add(interviewer);
+        appointment.get().setInterviewers(interviewers);
 
         return appointmentRepository.save(appointment.get());
     }

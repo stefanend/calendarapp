@@ -8,7 +8,13 @@ const Appointment = ({appointment}) => {
         lastName: ''
       });
 
-    const onEnterKey = (keyPress) => {
+      const [interviewer, setInterviewer] = useState({
+        firstName: '',
+        lastName: '',
+        experienced: null
+      });
+
+    const onEnterKeyCandidate = (keyPress) => {
         if(keyPress.keyCode === 13) {
             const words = keyPress.target.value.split(' ');
             candidate.firstName = words[0];
@@ -31,6 +37,31 @@ const Appointment = ({appointment}) => {
             })
         }
     }
+
+    const onEnterKeyInterviewer = (keyPress, experienced) => {
+        if(keyPress.keyCode === 13) {
+            const words = keyPress.target.value.split(' ');
+            interviewer.firstName = words[0];
+            interviewer.lastName = words[1];
+            interviewer.experienced = experienced;
+            fetch(`http://localhost:8080/api/appointments/interviewer/${appointment.id}`, { 
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json, text/plain',
+                    'Content-Type':'application/json'},
+                body: JSON.stringify(interviewer)
+            })
+            .then(response => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.log(error.message)
+            })
+        }
+    } 
     return (
         <div>
             <Card sx={{ width: '100%', height:'15%' }}>
@@ -38,16 +69,16 @@ const Appointment = ({appointment}) => {
                     <Stack>
                     <Typography variant="h5" sx={{ mb: 0, float: 'left', fontStyle: 'italic', fontSize: '14pt', border:'none'}} component="div">
                         <TextField id="outlined-search" label="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }}} 
-                        InputLabelProps={{ style: {fontSize: '11pt'} }} inputProps={{style: {paddingBottom: '8px'}}} onKeyDown={(e) => onEnterKey(e)}/>
+                        InputLabelProps={{ style: {fontSize: '11pt'} }} inputProps={{style: {paddingBottom: '8px'}}} onKeyDown={(e) => onEnterKeyCandidate(e)}/>
                     </Typography>
                     <Stack sx={{textAlign: "left"}}>
                     <Typography sx={{ mt: 0, fontSize: '11pt' }} color="text.secondary">
                         <label display="inline-block">Experienced interviewer: </label>
-                        <input type="text" style={{border:"none"}}/>
+                        <input type="text" style={{border:"none"}} onKeyDown={(e) => onEnterKeyInterviewer(e, true)}/>
                     </Typography>
-                    <Typography color="text.secondary" sx={{ fontSize: '11pt'}}>
+                    <Typography  color="text.secondary" sx={{ fontSize: '11pt'}}>
                         <label display="inline-block">Inexperienced interviewer: </label>
-                        <input type="text" style={{border:"none"}} />
+                        <input type="text" style={{border:"none"}} onKeyDown={(e) => onEnterKeyInterviewer(e, false)}/>
                     </Typography>
                     </Stack>
                     </Stack>
