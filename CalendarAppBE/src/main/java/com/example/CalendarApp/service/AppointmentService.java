@@ -12,5 +12,5 @@ public interface AppointmentService {
     public List<Appointment> getAppointments();
     public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate);
     public Appointment insertAppointment(Appointment appointment);
-    public Appointment insertCandidate(Date day, Candidate candidate);
+    public Appointment insertCandidate(int id, Candidate candidate);
 }

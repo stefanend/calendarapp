@@ -1,5 +1,5 @@
 import { Card, CardContent, Typography, TextField, Stack } from "@mui/material";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 
 const Appointment = ({appointment}) => {
@@ -10,13 +10,10 @@ const Appointment = ({appointment}) => {
 
     const onEnterKey = (keyPress) => {
         if(keyPress.keyCode === 13) {
-            console.log(keyPress.target.value)
             const words = keyPress.target.value.split(' ');
             candidate.firstName = words[0];
             candidate.lastName = words[1];
-            console.log(candidate)
-            //console.log(appointment.day.toISOString())
-            fetch(`http://localhost:8080/api/appointments/candidate?day=${new Date(appointment.day).toISOString()}`, { 
+            fetch(`http://localhost:8080/api/appointments/candidate/${appointment.id}`, { 
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json, text/plain',

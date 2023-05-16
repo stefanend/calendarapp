@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface AppointmentRepository extends MongoRepository<Appointment, Integer> {
     List<Appointment> findByDayBetweenOrderByDayAsc(Date startDate, Date endDate);
-    Optional<Appointment> findByDay(Date day);
+    Optional<Appointment> findById(int id);
 }

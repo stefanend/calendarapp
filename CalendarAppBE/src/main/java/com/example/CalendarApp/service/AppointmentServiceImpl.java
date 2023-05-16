@@ -41,9 +41,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public Appointment insertCandidate(Date day, Candidate candidate) {
-        List<Appointment> all = appointmentRepository.findAll();
-        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findByDay(day)
+    public Appointment insertCandidate(int id, Candidate candidate) {
+        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Appointment not found")
                 ));
 

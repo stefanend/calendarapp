@@ -46,11 +46,8 @@ public class AppointmentController {
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
     }
 
-    @PostMapping("/candidate")
-    public ResponseEntity<Appointment> insertCandidate(@RequestParam("day")
-                                                           @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                       Date day,
-                                                       @RequestBody Candidate candidate) {
-        return ResponseEntity.ok(appointmentService.insertCandidate(day, candidate));
+    @PostMapping("/candidate/{id}")
+    public ResponseEntity<Appointment> insertCandidate(@PathVariable("id") int id, @RequestBody Candidate candidate) {
+        return ResponseEntity.ok(appointmentService.insertCandidate(id, candidate));
     }
 }
