@@ -91,23 +91,23 @@ export default function ResponsiveGrid() {
         {Array.from(Array(1)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
             <Item sx={{background: "#005693", color: "white",fontSize: "20pt",fontWeight: "bold"}}>
-              <div>Self scheduling calendar - weekly</div>
-              <br/>
-            <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick}>
-              { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
-            </Button>
-            <Calendar 
-              id={popoverId} 
-              open={calendarPopoverOpen} 
-              anchorEl={anchorEl} 
-              getAppointmentsForWeek={getAppointmentsForWeek}
-              handleClose={handleCalendarPopoverClose} 
-            />
+              <div style={{ marginBottom: '5px' }}>Self scheduling calendar - weekly</div>
             </Item>
           </Grid>
         ))}
       </Grid>
-      <br/>
+      <Box sx={{ display:'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '10px' }}>
+        <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick} sx={{ backgroundColor: '#005693' }}>
+          { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
+        </Button>
+        <Calendar 
+          id={popoverId} 
+          open={calendarPopoverOpen} 
+          anchorEl={anchorEl} 
+          getAppointmentsForWeek={getAppointmentsForWeek}
+          handleClose={handleCalendarPopoverClose} 
+        />
+      </Box>
       <Grid container spacing={{ xs: 2, md: 2 }} columns={{ xs: 2, sm: 2, md: 20 }}>
         {Array.from(Array(5)).map((_, index) => (
           <Grid item xs={2} sm={4} md={4} key={index}>
@@ -124,7 +124,7 @@ export default function ResponsiveGrid() {
             { Object.entries(groupAppointmentsByHour(appointmentDay)).map((appointmentHours, index) => {
               return(
               <Box key={index}>
-                <Item>
+                <Item style={{ backgroundColor: '#E8EBF0' }}  >
                   <div style={{marginTop: '-10px'}}> { appointmentHours[0] } </div>
                   { appointmentHours[1].map((appointment, index) => {
                     return (
