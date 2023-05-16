@@ -96,10 +96,11 @@ export default function ResponsiveGrid() {
           </Grid>
         ))}
       </Grid>
-      <Box sx={{ display:'flex', justifyContent: 'center', marginTop: '10px', marginBottom: '10px' }}>
-        <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick} sx={{ backgroundColor: '#005693' }}>
+      <Box sx={{ display:'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '10px', marginBottom: '10px' }}>
+        <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick} sx={{margin: '0 auto', backgroundColor: '#005693' }}>
           { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
         </Button>
+        <Button  variant="contained">Create</Button>
         <Calendar 
           id={popoverId} 
           open={calendarPopoverOpen} 
