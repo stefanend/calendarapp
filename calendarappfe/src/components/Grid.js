@@ -1,18 +1,18 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import { experimentalStyled as styled } from '@mui/material/styles';
-import {Typography, TextField, Stack, Box} from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
+import DatePicker from './DatePicker';
 import Appointment from './Appointment';
 import Calendar from './Calendar';
+import { experimentalStyled as styled } from '@mui/material/styles';
+import { TextField, Box} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -131,6 +131,9 @@ export default function ResponsiveGrid() {
           {"Schedule new appointment"}
         </DialogTitle>
         <DialogContent>
+          <DatePicker/>
+        </DialogContent>
+        <DialogContent>
         <TextField id="outlined-search" placeholder="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
                         inputProps={{className: 'input-candidate', style: { padding: '16px 14px 8px 14px' }}}/>
         </DialogContent>
@@ -145,10 +148,10 @@ export default function ResponsiveGrid() {
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
-            Disagree
+            Close
           </Button>
           <Button onClick={handleClose} autoFocus>
-            Agree
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
