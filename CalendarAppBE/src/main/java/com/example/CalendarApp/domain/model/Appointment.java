@@ -24,7 +24,7 @@ public class Appointment {
 
     private Date day;
 
-    private List<Candidate> candidates;
+    private Candidate candidate;
 
     private List<Interviewer> interviewers;
 }

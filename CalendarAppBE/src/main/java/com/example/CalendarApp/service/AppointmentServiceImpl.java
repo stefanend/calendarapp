@@ -51,9 +51,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() ->
                         new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
 
-        List<Candidate> candidates = appointment.get().getCandidates();
-        candidates.add(candidate);
-        appointment.get().setCandidates(candidates);
+        appointment.get().setCandidate(candidate);
 
         return appointmentRepository.save(appointment.get());
     }
