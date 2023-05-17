@@ -1,5 +1,6 @@
 package com.example.CalendarApp.service;
 
+import com.example.CalendarApp.domain.exception.AppointmentNotFoundException;
 import com.example.CalendarApp.domain.model.Appointment;
 import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.domain.model.Interviewer;
@@ -47,8 +48,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment insertCandidate(int id, Candidate candidate) {
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found")
-                ));
+                .orElseThrow(() ->
+                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
 
         List<Candidate> candidates = appointment.get().getCandidates();
         candidates.add(candidate);
@@ -60,8 +61,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     @Override
     public Appointment insertInterviewer(int id, Interviewer interviewer) {
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Appointment not found")
-                ));
+                .orElseThrow(() ->
+                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
 
         List<Interviewer> interviewers = appointment.get().getInterviewers();
         interviewers.add(interviewer);
