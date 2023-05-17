@@ -5,10 +5,16 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
 export default function BasicDatePicker() {
+  const getDefaultDate = () => {
+    const now = dayjs(new Date());
+    if(now.hour() >= 16);
+      return now.add(1, 'day')
+    return now;
+  }
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker defaultValue={dayjs(Date.now())} label="Date" />
+        <DatePicker defaultValue={getDefaultDate()} label="Date" />
       </DemoContainer>
     </LocalizationProvider>
   );

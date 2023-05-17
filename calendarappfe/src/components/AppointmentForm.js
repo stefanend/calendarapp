@@ -18,6 +18,8 @@ const MenuProps = {
 
 const getClosestTimeFromNow = () => {
     const now = new Date();
+    if(now.getHours() >= 16)
+        return '09:00';
     if (now.getMinutes() >= 30)
         return now.getHours() + 1 + ':00';
     return now.getHours() + ':30'; 
