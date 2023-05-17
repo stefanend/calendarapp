@@ -1,12 +1,21 @@
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
+import {Typography, TextField, Stack, Box} from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Appointment from './Appointment';
 import Calendar from './Calendar';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -21,6 +30,17 @@ export default function ResponsiveGrid() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [weekStart, setWeekStart] = useState(dayjs(Date.now()));
   const [weekEnd, setWeekEnd] = useState(dayjs(Date.now()));
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const handlePopoverClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -100,7 +120,38 @@ export default function ResponsiveGrid() {
         <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick} sx={{margin: '0 auto', backgroundColor: '#005693' }}>
           { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
         </Button>
-        <Button  variant="contained">Create</Button>
+        <Button  variant="contained" onClick={handleClickOpen}><AddIcon sx={{fontSize: "medium", marginRight: "5px"}}/>Create</Button>
+        <Dialog
+        fullScreen={fullScreen}
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogTitle id="responsive-dialog-title">
+          {"Schedule new appointment"}
+        </DialogTitle>
+        <DialogContent>
+        <TextField id="outlined-search" placeholder="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
+                        inputProps={{className: 'input-candidate', style: { padding: '16px 14px 8px 14px' }}}/>
+        </DialogContent>
+        <DialogContent>
+        <TextField id="outlined-search" placeholder="Expirienced Interviewer Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
+                        inputProps={{className: 'input-expirienced-interviewer', style: { padding: '16px 14px 8px 14px' }}}/>
+        </DialogContent>
+        <DialogContent>
+        <TextField id="outlined-search" placeholder="Inexpirienced Interviewer Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
+                        inputProps={{className: 'input-inexpirienced-interviewer', style: { padding: '16px 14px 8px 14px' }}}/>
+        
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleClose}>
+            Disagree
+          </Button>
+          <Button onClick={handleClose} autoFocus>
+            Agree
+          </Button>
+        </DialogActions>
+      </Dialog>
         <Calendar 
           id={popoverId} 
           open={calendarPopoverOpen} 
