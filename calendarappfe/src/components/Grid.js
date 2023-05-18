@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-export default function ResponsiveGrid() {
+export default function ResponsiveGrid({ openAlert }) {
   const [appointments, setAppointments] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [formAnchorEl, setFormAnchorEl] = useState(null);
@@ -127,6 +127,7 @@ export default function ResponsiveGrid() {
           open={addAppointmentFormOpen} 
           handleClose={handleAddAppointmentClose} 
           triggerFetch={getAppointmentsForWeek}
+          openAlert={openAlert}
         />
 
         <Calendar 
@@ -159,7 +160,7 @@ export default function ResponsiveGrid() {
                     return (
                       <div key={index}>
                       { index === 0 
-                        ? <Appointment appointment={appointment}/>
+                        ? <Appointment appointment={appointment} openAlert={openAlert}/>
                         : <div style={{marginTop: '10px'}}><Appointment appointment={appointment}/></div>
                       }
                       </div>

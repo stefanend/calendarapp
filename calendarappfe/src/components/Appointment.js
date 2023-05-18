@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './styles/Appointment.css';
 
 
-const Appointment = ({appointment}) => {
+const Appointment = ({appointment, openAlert}) => {
     const [candidate, setCandidate] = useState({
         firstName: '',
         lastName: ''
@@ -19,7 +19,7 @@ const Appointment = ({appointment}) => {
         if(keyPress.keyCode === 13) {
             const words = keyPress.target.value.split(' ');
             candidate.firstName = words[0];
-            candidate.lastName = words[1];
+            candidate.lastName = words[1] || '';
             fetch(`http://localhost:8080/api/appointments/candidate/${appointment.id}`, { 
                 method: 'POST',
                 headers: {
@@ -32,6 +32,7 @@ const Appointment = ({appointment}) => {
             })
             .then((data) => {
                 console.log(data);
+                openAlert('Successfully updated candidate information!', 'success');
             })
             .catch((error) => {
                 console.log(error.message)
@@ -43,7 +44,7 @@ const Appointment = ({appointment}) => {
         if(keyPress.keyCode === 13) {
             const words = keyPress.target.value.split(' ');
             interviewer.firstName = words[0];
-            interviewer.lastName = words[1];
+            interviewer.lastName = words[1] || '';
             interviewer.experienced = experienced;
             fetch(`http://localhost:8080/api/appointments/interviewer/${appointment.id}`, { 
                 method: 'POST',
@@ -57,6 +58,7 @@ const Appointment = ({appointment}) => {
             })
             .then((data) => {
                 console.log(data);
+                openAlert('Successfully updated interviewer information!', 'success');
             })
             .catch((error) => {
                 console.log(error.message)
@@ -66,7 +68,7 @@ const Appointment = ({appointment}) => {
 
     const getCandidateName = () => {
         const candidate = appointment.candidate;
-        return candidate
+        return (candidate && candidate.firstName.length > 0)
             ? candidate.firstName + ' ' + candidate.lastName
             : '';
     }; 

@@ -33,7 +33,7 @@ const getDefaultDate = () => {
     return now;
   }
 
-export default function AppointmentForm({ id, anchorEl, open, handleClose, triggerFetch }) {
+export default function AppointmentForm({ id, anchorEl, open, handleClose, triggerFetch, openAlert }) {
     const [time, setTime] = useState(getClosestTimeFromNow());
     const [date, setDate] = useState(getDefaultDate());
     const [candidateFieldValue, setCandidateFieldValue] = useState('');
@@ -66,11 +66,11 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose, trigg
     const validateForm = (e) => {
         e.preventDefault();
         if(!date || !time) {
-            alert('Please fill in the required fields.');
+            openAlert('Please fill in the required fields.', 'error');
             return;
         }
         if(date.day() === 0 || date.day() === 6 ) {
-            alert('Interview cannot be scheduled on the weekend.');
+            openAlert('Interview cannot be scheduled on the weekend.', 'error');
             return;
         }
 
@@ -123,11 +123,12 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose, trigg
             return response.json();
         })
         .then((data) => {
-            console.log(data);
+            openAlert('Appointment was successfully added!', 'success');
             triggerFetch(date);
         })
         .catch((error) => {
             console.log(error.message)
+            openAlert('An error occured while adding appointment.', 'error')
         });
     }
 
