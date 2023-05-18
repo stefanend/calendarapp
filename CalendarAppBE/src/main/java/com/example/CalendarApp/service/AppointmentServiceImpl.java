@@ -1,6 +1,7 @@
 package com.example.CalendarApp.service;
 
 import com.example.CalendarApp.domain.exception.AppointmentNotFoundException;
+import com.example.CalendarApp.domain.exception.InterviewersWithTheSameExpirienceException;
 import com.example.CalendarApp.domain.model.Appointment;
 import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.domain.model.Interviewer;
@@ -25,6 +26,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment insertAppointment(Appointment appointment) {
+        long count = appointment.getInterviewers().stream()
+                .filter(Interviewer::isExperienced)
+                .count();
+
+        if(count == 2) {
+            throw new InterviewersWithTheSameExpirienceException(String
+                    .format("There can't be multiple interviewers with the same expirience per appointment!"));
+        }
+
         return appointmentRepository.insert(appointment);
     }
 
