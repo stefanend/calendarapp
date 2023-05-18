@@ -126,6 +126,7 @@ export default function ResponsiveGrid() {
           anchorEl={formAnchorEl} 
           open={addAppointmentFormOpen} 
           handleClose={handleAddAppointmentClose} 
+          triggerFetch={getAppointmentsForWeek}
         />
 
         <Calendar 

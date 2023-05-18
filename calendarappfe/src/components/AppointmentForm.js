@@ -1,9 +1,10 @@
-import { Box, FormControl, InputLabel, MenuItem, Popover, Select, Stack, TextField, Typography } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Popover, Select, Stack, TextField, Typography } from "@mui/material";
 import Button from '@mui/material/Button';
 import './styles/AppointmentForm.css';
 import BasicDatePicker from './DatePicker';
 import { useState } from "react";
 import moment from "moment/moment";
+import dayjs from "dayjs";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -25,8 +26,19 @@ const getClosestTimeFromNow = () => {
     return now.getHours() + ':30'; 
 };
 
-export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
+const getDefaultDate = () => {
+    const now = dayjs(new Date());
+    if(now.hour() >= 16)
+      return now.add(1, 'day')
+    return now;
+  }
+
+export default function AppointmentForm({ id, anchorEl, open, handleClose, triggerFetch }) {
     const [time, setTime] = useState(getClosestTimeFromNow());
+    const [date, setDate] = useState(getDefaultDate());
+    const [candidateFieldValue, setCandidateFieldValue] = useState('');
+    const [expInterviewerFieldValue, setExpInterviewerFieldValue] = useState('');
+    const [inexpInterviewerFieldValue, setInExpInterviewerFieldValue] = useState('');
 
     const getTimeValues = () => {
         const hours = [];
@@ -44,9 +56,81 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
         return hours;
     };
 
-    const handleChange = (event) => {
-      setTime(event.target.value);
+    const splitName = (fullName) => {
+        const words = fullName.split(' ');
+        const firstName = words[0];
+        const lastName = words[1] || '';
+        return [firstName, lastName];
     };
+
+    const validateForm = (e) => {
+        e.preventDefault();
+        if(!date || !time) {
+            alert('Please fill in the required fields.');
+            return;
+        }
+        if(date.day() === 0 || date.day() === 6 ) {
+            alert('Interview cannot be scheduled on the weekend.');
+            return;
+        }
+
+        let dateAndTime = new Date(date.toDate());
+        dateAndTime.setUTCHours(Number.parseInt(time.slice(0, 2)));
+        dateAndTime.setUTCMinutes(Number.parseInt(time.slice(3)));
+
+        let candidate = null;
+        let experiencedInterviewer = null;
+        let inexperiencedInterviewer = null;
+
+        if(candidateFieldValue !== '') {
+            const [candidateName, candidateLastName] = splitName(candidateFieldValue);
+            candidate = { firstName: candidateName, lastName: candidateLastName };
+        }
+
+        if(expInterviewerFieldValue !== '') {
+            const [expInterviewerName, expInterviewerLastName] = splitName(expInterviewerFieldValue);
+            experiencedInterviewer = { firstName: expInterviewerName, lastName: expInterviewerLastName, experienced: true };
+        }
+
+        if(inexpInterviewerFieldValue !== '') {
+            const [inexpInterviewerName, inexpInterviewerLastName] = splitName(inexpInterviewerFieldValue);
+            inexperiencedInterviewer = { firstName: inexpInterviewerName, lastName: inexpInterviewerLastName, experienced: false };
+        }
+
+        addAppointment(dateAndTime.toISOString(), candidate, experiencedInterviewer, inexperiencedInterviewer);
+    };
+
+    const addAppointment = (day, candidate, experiencedInterviewer, inexperiencedInterviewer) => {
+        let appointment = {};
+        appointment.day = day
+        appointment.interviewers = [];
+        if(candidate)
+            appointment.candidate = candidate;
+        if(experiencedInterviewer)
+            appointment.interviewers.push(experiencedInterviewer);
+        if(inexperiencedInterviewer)
+            appointment.interviewers.push(inexperiencedInterviewer);
+
+        fetch(`http://localhost:8080/api/appointments`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json, text/plain',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(appointment)
+        })
+        .then(response => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            triggerFetch(date);
+        })
+        .catch((error) => {
+            console.log(error.message)
+        });
+    }
+
     return(
         <Popover 
                 id={id}
@@ -62,13 +146,13 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
                     horizontal: 'center',
                 }}
                 >
+            <form onSubmit={(e) => validateForm(e)}>
             <Stack direction='column' className='form-wrapper'>
                 <Typography variant="h6">
                 Schedule new appointment
                 </Typography>
-
             <FormControl fullWidth>
-               <BasicDatePicker />
+               <BasicDatePicker value={date} onDateChange={(newValue) => setDate(newValue)} />
             </FormControl>
             <FormControl>
             <FormControl sx={{marginTop: '15px', width:'50%'}}>
@@ -76,7 +160,7 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
                 <Select
                     id="demo-simple-select-label"
                     label="Time"
-                    onChange={handleChange}
+                    onChange={(e) => setTime(e.target.value)}
                     MenuProps={MenuProps}
                     placeholder={getClosestTimeFromNow()}
                     value={time}
@@ -92,6 +176,7 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
                 type="search" 
                 sx={{"& fieldset": { border: 'none' }, marginTop: '10px'}} 
                 inputProps={{ style: { fontSize: '11pt', padding: '8px' } }} 
+                onChange={ (e) => setCandidateFieldValue(e.target.value) }
             />
             </FormControl>
             <FormControl>
@@ -102,6 +187,7 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
                 type="search" 
                 sx={{"& fieldset": { border: 'none' }, marginTop: '10px'}} 
                 inputProps={{ style: { fontSize: '11pt', padding: '8px' } }} 
+                onChange={ (e) => setExpInterviewerFieldValue(e.target.value) }
             />
             </FormControl>
             <FormControl>
@@ -111,18 +197,26 @@ export default function AppointmentForm({ id, anchorEl, open, handleClose }) {
                 type="search" 
                 sx={{"& fieldset": { border: 'none' }, marginTop: '10px'}} 
                 inputProps={{ style: { fontSize: '11pt', padding: '8px' } }} 
+                onChange={ (e) => setInExpInterviewerFieldValue(e.target.value) }
             />
             
             </FormControl>
             <Stack direction='row' alignSelf='flex-end'>
-            <Button autoFocus onClick={handleClose}>
+            <Button 
+                autoFocus 
+                onClick={handleClose}
+            >
                 Close
             </Button>
-            <Button onClick={handleClose} autoFocus>
+            <Button 
+                autoFocus
+                type='submit'
+            >
                 Submit
             </Button>
             </Stack>
             </Stack>
+            </form>
         </Popover>
     );
 }
