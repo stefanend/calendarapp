@@ -8,14 +8,17 @@ import com.example.CalendarApp.service.SequenceGeneratorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
 @CrossOrigin(origins = "*")
+@Validated
 public class AppointmentController {
 
     @Autowired
@@ -40,7 +43,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-    public ResponseEntity<Appointment> insertAppointment(@RequestBody Appointment appointment) {
+    public ResponseEntity<Appointment> insertAppointment(@RequestBody @Valid Appointment appointment) {
         appointment.setId(sequenceGeneratorService.getSequenceNumber(Appointment.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertAppointment(appointment));
     }
@@ -53,6 +56,7 @@ public class AppointmentController {
     @PostMapping("/interviewer/{id}")
     public ResponseEntity<Appointment> insertInterviewer(@PathVariable("id") int id,
                                                        @RequestBody Interviewer interviewer) {
+        interviewer.setId(sequenceGeneratorService.getSequenceNumber(Interviewer.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertInterviewer(id, interviewer));
     }
 }

@@ -63,7 +63,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                         new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
 
         List<Interviewer> interviewers = appointment.get().getInterviewers();
-        interviewers.add(interviewer);
+        interviewers.add(interviewerRepository.save(interviewer));
         appointment.get().setInterviewers(interviewers);
 
         return appointmentRepository.save(appointment.get());
