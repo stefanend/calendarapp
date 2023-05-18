@@ -51,7 +51,7 @@ export default function AppointmentForm({
   const [date, setDate] = useState(getDefaultDate());
   const [candidateFieldValue, setCandidateFieldValue] = useState('');
   const [expInterviewerFieldValue, setExpInterviewerFieldValue] = useState('');
-  const [inexpInterviewerFieldValue, setInExpInterviewerFieldValue] =
+  const [inexpInterviewerFieldValue, setInexpInterviewerFieldValue] =
     useState('');
 
   const getTimeValues = () => {
@@ -75,6 +75,12 @@ export default function AppointmentForm({
     const firstName = words[0];
     const lastName = words[1] || '';
     return [firstName, lastName];
+  };
+
+  const resetFields = () => {
+    setCandidateFieldValue('');
+    setExpInterviewerFieldValue('');
+    setInexpInterviewerFieldValue('');
   };
 
   const validateForm = (e) => {
@@ -163,6 +169,7 @@ export default function AppointmentForm({
       .then((data) => {
         openAlert('Appointment was successfully added!', 'success');
         triggerFetch(date);
+        resetFields();
       })
       .catch((error) => {
         console.log(error.message);
@@ -253,7 +260,7 @@ export default function AppointmentForm({
               inputProps={{
                 style: { fontSize: '11pt', padding: '8px' },
               }}
-              onChange={(e) => setInExpInterviewerFieldValue(e.target.value)}
+              onChange={(e) => setInexpInterviewerFieldValue(e.target.value)}
             />
           </FormControl>
           <Stack direction='row' alignSelf='flex-end'>
