@@ -105,10 +105,12 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
 	const deleteAppointment = () => {
 		fetch(`http://localhost:8080/api/appointments/${appointment.id}`, { 
 			method: 'DELETE',
-			headers: { 'Content-Type': 'text/plain;charset=UTF-8' } 
+			headers: { 'Content-Type': 'text/plain;charset=UTF-8;application/json' } 
 		})
 			.then((response) => {
-				return response.text();
+				if(response.ok)
+					return response.text();
+				return response.json().then((error) => Promise.reject(error));
 			})
 			.then((message) => {
 				console.log(message);
@@ -116,7 +118,8 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
 				triggerFetch(dayjs(appointment.day));
 			})
 			.catch((error) => {
-				openAlert('Error while deleting appointment.', error.message);
+				console.log(error)
+				openAlert('Error ' + error.httpCode + ': ' + error.message, 'error');
 			});
 	}
 

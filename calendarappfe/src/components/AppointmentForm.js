@@ -172,7 +172,6 @@ export default function AppointmentForm({
         resetFields();
       })
       .catch((error) => {
-        console.log(error.message);
         openAlert('An error occured while adding appointment.', 'error');
       });
   };
