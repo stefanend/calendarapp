@@ -2,11 +2,12 @@ import { useState } from 'react';
 import './App.css';
 import ResponsiveGrid from './components/Grid';
 import SnackbarAlert from './components/SnackbarAlert';
+import { Container } from '@mui/material';
 
 function App() {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
-  const [alertSeverity, setAlertSeverity] = useState('');
+  const [alertSeverity, setAlertSeverity] = useState('info');
 
   const openAlert = (message, severity) => {
     setAlertOpen(true);
@@ -23,7 +24,7 @@ function App() {
   };
 
   return (
-    <div>
+    <Container maxWidth={false}>
       <ResponsiveGrid openAlert={openAlert} />
       <SnackbarAlert
         open={alertOpen}
@@ -31,7 +32,7 @@ function App() {
         message={alertMessage}
         severity={alertSeverity}
       />
-    </div>
+    </Container>
   );
 }
 

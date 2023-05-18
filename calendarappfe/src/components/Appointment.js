@@ -10,8 +10,9 @@ import {
 import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './styles/Appointment.css';
+import dayjs from 'dayjs';
 
-const Appointment = ({ appointment, openAlert }) => {
+const Appointment = ({ appointment, openAlert, triggerFetch }) => {
   const [candidate, setCandidate] = useState({
     firstName: '',
     lastName: '',
@@ -102,13 +103,21 @@ const Appointment = ({ appointment, openAlert }) => {
   };
 
 	const deleteAppointment = () => {
-		// fetch(`http://localhost:8080/api/appointments/${appointment.id}`, { method: 'DELETE' })
-		// 	.then((response) => {
-		// 		openAlert('Appointment was successfully deleted!', 'success');
-		// 	})
-		// 	.catch((error) => {
-		// 		openAlert('Error while deleting appointment.', error.message);
-		// 	})
+		fetch(`http://localhost:8080/api/appointments/${appointment.id}`, { 
+			method: 'DELETE',
+			headers: { 'Content-Type': 'text/plain;charset=UTF-8' } 
+		})
+			.then((response) => {
+				return response.text();
+			})
+			.then((message) => {
+				console.log(message);
+				openAlert(message, 'success');
+				triggerFetch(dayjs(appointment.day));
+			})
+			.catch((error) => {
+				openAlert('Error while deleting appointment.', error.message);
+			});
 	}
 
   return (
