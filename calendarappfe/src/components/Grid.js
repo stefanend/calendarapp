@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
-import DatePicker from './DatePicker';
 import Appointment from './Appointment';
 import Calendar from './Calendar';
 import { experimentalStyled as styled } from '@mui/material/styles';
@@ -10,12 +9,9 @@ import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import AppointmentForm from './AppointmentForm';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -28,18 +24,20 @@ const Item = styled(Paper)(({ theme }) => ({
 export default function ResponsiveGrid() {
   const [appointments, setAppointments] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [formAnchorEl, setFormAnchorEl] = useState(null);
   const [weekStart, setWeekStart] = useState(dayjs(Date.now()));
   const [weekEnd, setWeekEnd] = useState(dayjs(Date.now()));
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleAddAppointmentOpen = (event) => {
+    setFormAnchorEl(event.currentTarget);
+    console.log(formAnchorEl);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleAddAppointmentClose = () => {
+    setFormAnchorEl(null);
   };
 
   const handlePopoverClick = (event) => {
@@ -51,7 +49,9 @@ export default function ResponsiveGrid() {
   };
 
   const calendarPopoverOpen = Boolean(anchorEl);
+  const addAppointmentFormOpen = Boolean(formAnchorEl);
   const popoverId = calendarPopoverOpen ? 'simple-popover' : undefined;
+  const formPopoverId = addAppointmentFormOpen ? 'simple-popover' : undefined;
   
   const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   
@@ -120,41 +120,15 @@ export default function ResponsiveGrid() {
         <Button aria-describedby={popoverId} variant='contained' onClick={handlePopoverClick} sx={{margin: '0 auto', backgroundColor: '#005693' }}>
           { weekStart.toDate().toLocaleDateString() } - { weekEnd.toDate().toLocaleDateString() }
         </Button>
-        <Button  variant="contained" onClick={handleClickOpen}><AddIcon sx={{fontSize: "medium", marginRight: "5px"}}/>Create</Button>
-        <Dialog
-        fullScreen={fullScreen}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogTitle id="responsive-dialog-title">
-          {"Schedule new appointment"}
-        </DialogTitle>
-        <DialogContent>
-          <DatePicker/>
-        </DialogContent>
-        <DialogContent>
-        <TextField id="outlined-search" placeholder="Candidate Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
-                        inputProps={{className: 'input-candidate', style: { padding: '16px 14px 8px 14px' }}}/>
-        </DialogContent>
-        <DialogContent>
-        <TextField id="outlined-search" placeholder="Expirienced Interviewer Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
-                        inputProps={{className: 'input-expirienced-interviewer', style: { padding: '16px 14px 8px 14px' }}}/>
-        </DialogContent>
-        <DialogContent>
-        <TextField id="outlined-search" placeholder="Inexpirienced Interviewer Name" type="search" sx={{"& fieldset": { border: 'none' }, '& placeholder': { fontSize: '3pt' }}} 
-                        inputProps={{className: 'input-inexpirienced-interviewer', style: { padding: '16px 14px 8px 14px' }}}/>
-        
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Close
-          </Button>
-          <Button onClick={handleClose} autoFocus>
-            Submit
-          </Button>
-        </DialogActions>
-      </Dialog>
+        <Button aria-describedby={formPopoverId} variant="contained" onClick={handleAddAppointmentOpen}><AddIcon sx={{fontSize: "medium", marginRight: "5px"}}/>Create</Button>
+        <AppointmentForm 
+          id={formPopoverId} 
+          anchorEl={formAnchorEl} 
+          open={addAppointmentFormOpen} 
+          handleClose={handleAddAppointmentClose} 
+          triggerFetch={getAppointmentsForWeek}
+        />
+
         <Calendar 
           id={popoverId} 
           open={calendarPopoverOpen} 
@@ -183,7 +157,7 @@ export default function ResponsiveGrid() {
                   <div style={{marginTop: '-10px'}}> { appointmentHours[0] } </div>
                   { appointmentHours[1].map((appointment, index) => {
                     return (
-                      <div>
+                      <div key={index}>
                       { index === 0 
                         ? <Appointment appointment={appointment}/>
                         : <div style={{marginTop: '10px'}}><Appointment appointment={appointment}/></div>
