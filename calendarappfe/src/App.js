@@ -9,27 +9,24 @@ function App() {
   const [alertSeverity, setAlertSeverity] = useState('');
 
   const openAlert = (message, severity) => {
-      setAlertOpen(true);
-      setAlertMessage(message);
-      setAlertSeverity(severity);
-    };
-  
-    const handleAlertClose = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setAlertOpen(false);
-    };
+    setAlertOpen(true);
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+  };
+
+  const handleAlertClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setAlertOpen(false);
+  };
 
   return (
     <div>
-      <header>
-        {/* <Appointment appointment={tmpAppointment}/> */}
-      </header>
-      <ResponsiveGrid openAlert={openAlert}/>
-      <SnackbarAlert 
-        open={alertOpen} 
+      <ResponsiveGrid openAlert={openAlert} />
+      <SnackbarAlert
+        open={alertOpen}
         handleClose={handleAlertClose}
         message={alertMessage}
         severity={alertSeverity}

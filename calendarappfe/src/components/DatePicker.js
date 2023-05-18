@@ -7,7 +7,7 @@ export default function BasicDatePicker({ value, onDateChange }) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']}>
-        <DatePicker value={value} label="Date" onChange={onDateChange} />
+        <DatePicker value={value} label='Date' onChange={onDateChange} />
       </DemoContainer>
     </LocalizationProvider>
   );
