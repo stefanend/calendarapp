@@ -1,14 +1,14 @@
 .lbl-interviewer {
-    max-width: 100%;
-    white-space: nowrap;
-    margin-right: 2px;
+  max-width: 100%;
+  white-space: nowrap;
+  margin-right: 2px;
 }
 .input-interviewer {
-    border: none;
-    width: 100%;
-    font-size: 9pt;
+  border: none;
+  width: 100%;
+  font-size: 9pt;
 }
 .input-candidate {
-    font-size: 11pt;
-    text-align: center;
+  font-size: 11pt;
+  text-align: center;
 }
