@@ -1,5 +1,6 @@
 package com.example.CalendarApp.domain.model;
 
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class Appointment {
     @Id
     private int id;
 
+    @NotNull(message = "Date is required!")
     private Date day;
 
     private Candidate candidate;
