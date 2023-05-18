@@ -1,5 +1,6 @@
 package com.example.CalendarApp.domain.model;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,6 @@ public class Appointment {
 
     private Candidate candidate;
 
+    @Size(max = 2, message = "The maximum number of interviewers per appointment is two!")
     private List<Interviewer> interviewers;
 }
