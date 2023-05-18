@@ -88,4 +88,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         return appointmentRepository.save(appointment.get());
     }
+
+    @Override
+    public String deleteAppointment(int id) {
+        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
+
+        appointmentRepository.deleteById(appointment.get().getId());
+
+        return "Appointment has been deleted!";
+    }
 }

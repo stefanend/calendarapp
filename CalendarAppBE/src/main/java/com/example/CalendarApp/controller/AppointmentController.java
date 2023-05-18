@@ -59,4 +59,9 @@ public class AppointmentController {
         interviewer.setId(sequenceGeneratorService.getSequenceNumber(Interviewer.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertInterviewer(id, interviewer));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteAppointment(@PathVariable("id") int id) {
+        return ResponseEntity.ok(appointmentService.deleteAppointment(id));
+    }
 }
