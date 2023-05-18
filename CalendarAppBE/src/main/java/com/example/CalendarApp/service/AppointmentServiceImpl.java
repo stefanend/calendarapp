@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
 
@@ -31,8 +33,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .count();
 
         if(count == 2) {
-            throw new InterviewersWithTheSameExpirienceException(String
-                    .format("There can't be multiple interviewers with the same expirience per appointment!"));
+            throw new InterviewersWithTheSameExpirienceException("There can't be multiple interviewers with the same expirience per appointment!");
         }
 
         return appointmentRepository.insert(appointment);
@@ -59,7 +60,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment insertCandidate(int id, Candidate candidate) {
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
                 .orElseThrow(() ->
-                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
+                        new AppointmentNotFoundException(format("Appointment with the id: %d does not exist!", id))));
 
         appointment.get().setCandidate(candidate);
 
@@ -70,7 +71,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public Appointment insertInterviewer(int id, Interviewer interviewer) {
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
                 .orElseThrow(() ->
-                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
+                        new AppointmentNotFoundException(format("Appointment with the id: %d does not exist!", id))));
 
         List<Interviewer> interviewers = appointment.get()
                 .getInterviewers();
@@ -93,7 +94,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     public String deleteAppointment(int id) {
         Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
                 .orElseThrow(() ->
-                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
+                        new AppointmentNotFoundException(format("Appointment with the id: %d does not exist!", id))));
 
         appointmentRepository.deleteById(appointment.get().getId());
 
