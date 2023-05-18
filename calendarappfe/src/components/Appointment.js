@@ -5,8 +5,10 @@ import {
   TextField,
   Stack,
   Box,
+	IconButton,
 } from '@mui/material';
 import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './styles/Appointment.css';
 
 const Appointment = ({ appointment, openAlert }) => {
@@ -99,40 +101,65 @@ const Appointment = ({ appointment, openAlert }) => {
       : '';
   };
 
+	const deleteAppointment = () => {
+		// fetch(`http://localhost:8080/api/appointments/${appointment.id}`, { method: 'DELETE' })
+		// 	.then((response) => {
+		// 		openAlert('Appointment was successfully deleted!', 'success');
+		// 	})
+		// 	.catch((error) => {
+		// 		openAlert('Error while deleting appointment.', error.message);
+		// 	})
+	}
+
   return (
     <div>
       <Card sx={{ width: '100%', height: '15%' }}>
         <CardContent
           sx={{
             padding: '8px 8px',
-            '&:last-child': { paddingBottom: '10px' },
+            '&:last-child': { paddingBottom: '10px' }
           }}
         >
           <Stack>
-            <Typography
-              variant='h5'
-              sx={{
-                mb: 0,
-                fontStyle: 'italic',
-                fontSize: '11pt',
-                border: 'none',
-                mt: '-18px',
-              }}
-              component='div'
-            >
-              <TextField
-                id='outlined-search'
-                placeholder='Candidate Name'
-                type='search'
-                sx={{ '& fieldset': { border: 'none' } }}
-                inputProps={{
-                  className: 'input-candidate',
-                  style: { padding: '16px 14px 8px 14px' },
-                }}
-                onKeyDown={(e) => onEnterKeyCandidate(e)}
-                defaultValue={getCandidateName()}
-              />
-            </Typography>
+						<Stack direction={'row'} sx={{ mt: '-9px', mr: '-8px' }}>
+								<Typography
+									variant='h5'
+									sx={{
+										mb: 0,
+										fontStyle: 'italic',
+										fontSize: '11pt',
+										border: 'none',
+										alignSelf: 'flex-end',
+										width: '100%'
+									}}
+									component='div'
+								>
+									<TextField
+										id='outlined-search'
+										placeholder='Candidate Name'
+										type='search'
+										sx={{ '& fieldset': { border: 'none' } }}
+										inputProps={{
+											className: 'input-candidate',
+											style: { padding: '16px 14px 8px 14px' },
+										}}
+										onKeyDown={(e) => onEnterKeyCandidate(e)}
+										defaultValue={getCandidateName()}
+									/>
+							</Typography>
+							<IconButton 
+								aria-label='delete'
+								sx={{ alignSelf: 'flex-start'}}
+								size='small'
+								onClick={deleteAppointment}
+							>
+								<DeleteIcon 
+									fontSize='inherit' 
+									sx={{'&:hover': { 
+													color: '#BF4639'
+								}}} />
+							</IconButton>
+						</Stack>
             <Stack sx={{ textAlign: 'left' }}>
               <Typography
                 sx={{ mt: 0, fontSize: '9pt' }}
