@@ -5,13 +5,13 @@ import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.domain.model.Interviewer;
 import com.example.CalendarApp.service.AppointmentService;
 import com.example.CalendarApp.service.SequenceGeneratorService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.Date;
 import java.util.List;
 
@@ -49,13 +49,14 @@ public class AppointmentController {
     }
 
     @PostMapping("/candidate/{id}")
-    public ResponseEntity<Appointment> insertCandidate(@PathVariable("id") int id, @RequestBody Candidate candidate) {
+    public ResponseEntity<Appointment> insertCandidate(@PathVariable("id") int id,
+                                                       @RequestBody @Valid Candidate candidate) {
         return ResponseEntity.ok(appointmentService.insertCandidate(id, candidate));
     }
 
     @PostMapping("/interviewer/{id}")
     public ResponseEntity<Appointment> insertInterviewer(@PathVariable("id") int id,
-                                                       @RequestBody Interviewer interviewer) {
+                                                       @RequestBody @Valid Interviewer interviewer) {
         interviewer.setId(sequenceGeneratorService.getSequenceNumber(Interviewer.SEQUENCE_NAME));
         return ResponseEntity.ok(appointmentService.insertInterviewer(id, interviewer));
     }
