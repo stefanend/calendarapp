@@ -12,6 +12,7 @@ public interface AppointmentService {
     public List<Appointment> getAppointments();
     public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate);
     public Appointment insertAppointment(Appointment appointment);
+    public String deleteAppointment(int id);
     public Appointment insertCandidate(int id, Candidate candidate);
     Appointment insertInterviewer(int id, Interviewer interviewer);
 }

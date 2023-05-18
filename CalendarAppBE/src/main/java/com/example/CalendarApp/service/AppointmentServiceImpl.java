@@ -1,6 +1,7 @@
 package com.example.CalendarApp.service;
 
 import com.example.CalendarApp.domain.exception.AppointmentNotFoundException;
+import com.example.CalendarApp.domain.exception.InterviewersWithTheSameExpirienceException;
 import com.example.CalendarApp.domain.model.Appointment;
 import com.example.CalendarApp.domain.model.Candidate;
 import com.example.CalendarApp.domain.model.Interviewer;
@@ -25,6 +26,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment insertAppointment(Appointment appointment) {
+        long count = appointment.getInterviewers().stream()
+                .filter(Interviewer::isExperienced)
+                .count();
+
+        if(count == 2) {
+            throw new InterviewersWithTheSameExpirienceException(String
+                    .format("There can't be multiple interviewers with the same expirience per appointment!"));
+        }
+
         return appointmentRepository.insert(appointment);
     }
 
@@ -62,10 +72,31 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .orElseThrow(() ->
                         new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
 
-        List<Interviewer> interviewers = appointment.get().getInterviewers();
+        List<Interviewer> interviewers = appointment.get()
+                .getInterviewers();
+
+        interviewers.stream()
+                .filter(i -> i.isExperienced() == interviewer.isExperienced())
+                .findAny()
+                .ifPresent(i -> {
+                    interviewerRepository.delete(i);
+                    interviewers.remove(i);
+                });
+
         interviewers.add(interviewerRepository.save(interviewer));
         appointment.get().setInterviewers(interviewers);
 
         return appointmentRepository.save(appointment.get());
+    }
+
+    @Override
+    public String deleteAppointment(int id) {
+        Optional<Appointment> appointment = Optional.ofNullable(appointmentRepository.findById(id)
+                .orElseThrow(() ->
+                        new AppointmentNotFoundException(String.format("Appointment with the id: %d does not exist!", id))));
+
+        appointmentRepository.deleteById(appointment.get().getId());
+
+        return "Appointment has been deleted!";
     }
 }
