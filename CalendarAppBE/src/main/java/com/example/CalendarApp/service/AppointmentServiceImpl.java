@@ -49,7 +49,7 @@ public class AppointmentServiceImpl implements AppointmentService {
                 .stream()
                 .filter(byDayBetweenOrderByDayAsc1 ->
                         byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 >= 9
-                && byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 < 17
+                && byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 <= 16
                 && (byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 0
                                 || byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 30))
                 .collect(Collectors.toList());
