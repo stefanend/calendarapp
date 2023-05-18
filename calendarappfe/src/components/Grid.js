@@ -3,14 +3,12 @@ import { useEffect, useState } from 'react';
 import Appointment from './Appointment';
 import Calendar from './Calendar';
 import { experimentalStyled as styled } from '@mui/material/styles';
-import { TextField, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
 import AppointmentForm from './AppointmentForm';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -27,9 +25,6 @@ export default function ResponsiveGrid({ openAlert }) {
   const [formAnchorEl, setFormAnchorEl] = useState(null);
   const [weekStart, setWeekStart] = useState(dayjs(Date.now()));
   const [weekEnd, setWeekEnd] = useState(dayjs(Date.now()));
-  const [open, setOpen] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
   const handleAddAppointmentOpen = (event) => {
     setFormAnchorEl(event.currentTarget);
@@ -151,7 +146,7 @@ export default function ResponsiveGrid({ openAlert }) {
           aria-describedby={popoverId}
           variant='contained'
           onClick={handlePopoverClick}
-          sx={{ margin: '0 auto', backgroundColor: '#005693' }}
+          sx={{ margin: '0 auto' }}
         >
           {weekStart.toDate().toLocaleDateString()} -{' '}
           {weekEnd.toDate().toLocaleDateString()}
@@ -223,6 +218,7 @@ export default function ResponsiveGrid({ openAlert }) {
                                 <Appointment
                                   appointment={appointment}
                                   openAlert={openAlert}
+                                  triggerFetch={getAppointmentsForWeek}
                                 />
                               ) : (
                                 <div
@@ -233,6 +229,7 @@ export default function ResponsiveGrid({ openAlert }) {
                                   <Appointment
                                     appointment={appointment}
                                     openAlert={openAlert}
+                                    triggerFetch={getAppointmentsForWeek}
                                   />
                                 </div>
                               )}

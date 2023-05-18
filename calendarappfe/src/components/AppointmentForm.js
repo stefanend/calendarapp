@@ -158,7 +158,7 @@ export default function AppointmentForm({
     fetch(`http://localhost:8080/api/appointments`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json, text/plain',
+        'Accept': 'application/json, text/plain',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(appointment),
