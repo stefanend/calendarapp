@@ -9,7 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Document(collection = "appointment")
@@ -25,7 +25,7 @@ public class Appointment {
     private int id;
 
     @NotNull(message = "Date is required!")
-    private Date day;
+    private LocalDateTime day;
 
     private Candidate candidate;
 

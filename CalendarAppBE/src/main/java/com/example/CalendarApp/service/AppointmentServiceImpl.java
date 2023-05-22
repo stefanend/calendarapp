@@ -10,7 +10,7 @@ import com.example.CalendarApp.domain.repository.InterviewerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -45,14 +45,14 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointmentsInDateRange(Date startDate, Date endDate) {
+    public List<Appointment> getAppointmentsInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate)
                 .stream()
                 .filter(byDayBetweenOrderByDayAsc1 ->
-                        byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 >= 9
-                && byDayBetweenOrderByDayAsc1.getDay().getHours() - 2 <= 16
-                && (byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 0
-                                || byDayBetweenOrderByDayAsc1.getDay().getMinutes() == 30))
+                        byDayBetweenOrderByDayAsc1.getDay().getHour() >= 9
+                && byDayBetweenOrderByDayAsc1.getDay().getHour() <= 16
+                && (byDayBetweenOrderByDayAsc1.getDay().getMinute() == 0
+                                || byDayBetweenOrderByDayAsc1.getDay().getMinute() == 30))
                 .collect(Collectors.toList());
     }
 

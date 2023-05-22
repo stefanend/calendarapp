@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -35,10 +35,10 @@ public class AppointmentController {
     @GetMapping("/date")
     public ResponseEntity<List<Appointment>> getAppointmentsByDateRange(@RequestParam("startDate")
                                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                        Date startDate,
+                                                                            LocalDateTime startDate,
                                                                         @RequestParam("endDate")
                                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                        Date endDate) {
+                                                                        LocalDateTime endDate) {
         return ResponseEntity.ok(appointmentService.getAppointmentsInDateRange(startDate, endDate));
     }
 
