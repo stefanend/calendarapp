@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static java.time.LocalDateTime.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -99,11 +101,11 @@ public class AppointmentServiceTest {
     @Test
     void insertInterviewerTest() {
         Interviewer interviewer = new Interviewer(1, "Stefan", "Marjanovic", true);
-        List<Interviewer> interviewers = new ArrayList();
+        List<Interviewer> interviewers = new ArrayList<>();
         interviewers.add(interviewer);
         Appointment expected = new Appointment(1, now(), null, interviewers);
 
-        when(appointmentRepository.findById(1)).thenReturn(Optional.of(expected));
+        when(appointmentRepository.findById(anyInt())).thenReturn(Optional.of(expected));
         when(appointmentRepository.save(expected)).thenReturn(expected);
 
         Appointment actual = service.insertInterviewer(1, interviewer);

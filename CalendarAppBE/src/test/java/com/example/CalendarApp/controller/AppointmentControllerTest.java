@@ -19,6 +19,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -49,7 +50,7 @@ public class AppointmentControllerTest {
         Candidate candidate = new Candidate(1,"Stefan", "Marjanovic");
         Appointment expected = new Appointment(1, LocalDateTime.now(), candidate, Collections.emptyList());
 
-        when(service.insertCandidate(1, candidate)).thenReturn(expected);
+        when(service.insertCandidate(anyInt(), any(Candidate.class))).thenReturn(expected);
 
         ResponseEntity<Appointment> actual = controller.insertCandidate(1, candidate);
 
