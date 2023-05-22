@@ -28,7 +28,6 @@ export default function ResponsiveGrid({ openAlert }) {
 
   const handleAddAppointmentOpen = (event) => {
     setFormAnchorEl(event.currentTarget);
-    console.log(formAnchorEl);
   };
 
   const handleAddAppointmentClose = () => {
@@ -55,9 +54,6 @@ export default function ResponsiveGrid({ openAlert }) {
     const endDate = selectedDay.endOf('week');
     setWeekStart(startDate);
     setWeekEnd(endDate);
-
-    console.log(selectedDay.startOf('week').toDate());
-    console.log(selectedDay.endOf('week').toDate());
 
     fetch(
       `http://localhost:8080/api/appointments/date?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
@@ -91,7 +87,7 @@ export default function ResponsiveGrid({ openAlert }) {
   const groupAppointmentsByHour = (appointmentDay) => {
     const groupedAppointments = appointmentDay.reduce(
       (accumulator, appointment) => {
-        let currentDate = new Date(appointment.day);
+        let currentDate = new Date(appointment.day+'Z');
         let currentTime = currentDate.toISOString().substring(11, 16);
         if (!accumulator[currentTime]) {
           accumulator[currentTime] = [];
@@ -156,7 +152,7 @@ export default function ResponsiveGrid({ openAlert }) {
           variant='contained'
           onClick={handleAddAppointmentOpen}
         >
-          <AddIcon sx={{ fontSize: 'medium', marginRight: '5px' }} />
+          <AddIcon sx={{ fontSize: 'medium'}} />
           Create
         </Button>
         <AppointmentForm
