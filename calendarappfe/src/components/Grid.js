@@ -151,6 +151,7 @@ export default function ResponsiveGrid({ openAlert }) {
           aria-describedby={formPopoverId}
           variant='contained'
           onClick={handleAddAppointmentOpen}
+          sx={{ marginLeft: '-6.5rem' }}
         >
           <AddIcon sx={{ fontSize: 'medium'}} />
           Create
