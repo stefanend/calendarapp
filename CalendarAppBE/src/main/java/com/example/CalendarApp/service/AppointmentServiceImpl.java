@@ -28,11 +28,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public Appointment insertAppointment(Appointment appointment) {
-        long count = appointment.getInterviewers().stream()
-                .filter(Interviewer::isExperienced)
-                .count();
+        List<Interviewer> interviewers = appointment.getInterviewers();
 
-        if(count == 2) {
+        if(interviewers.size() == 2 && interviewers.get(0).isExperienced() == interviewers.get(1).isExperienced()) {
             throw new InterviewersWithTheSameExpirienceException("There can't be multiple interviewers with the same expirience per appointment!");
         }
 
