@@ -235,7 +235,7 @@ export default function AppointmentForm({
           <FormControl>
             <TextField
               id='outlined-search'
-              placeholder='Expirienced Interviewer Name'
+              placeholder='Experienced Interviewer Name'
               type='search'
               sx={{
                 '& fieldset': { border: 'none' },
@@ -250,7 +250,7 @@ export default function AppointmentForm({
           <FormControl>
             <TextField
               id='outlined-search'
-              placeholder='Inexpirienced Interviewer Name'
+              placeholder='Inexperienced Interviewer Name'
               type='search'
               sx={{
                 '& fieldset': { border: 'none' },
