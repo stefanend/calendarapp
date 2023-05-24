@@ -110,7 +110,7 @@ public class AppointmentControllerIT extends TestConfig {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.httpCode", equalTo(400)))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.errorCode", equalTo("CA-4001")))
                 .andExpect(MockMvcResultMatchers
-                        .jsonPath("$.message", equalTo("There can't be multiple interviewers with the same expirience per appointment!")));;
+                        .jsonPath("$.message", equalTo("There can't be multiple interviewers with the same experience per appointment!")));;
     }
 
     @Test

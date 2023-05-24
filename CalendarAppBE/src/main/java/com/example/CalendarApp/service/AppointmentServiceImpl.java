@@ -31,7 +31,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         List<Interviewer> interviewers = appointment.getInterviewers();
 
         if(interviewers.size() == 2 && interviewers.get(0).isExperienced() == interviewers.get(1).isExperienced()) {
-            throw new InterviewersWithTheSameExpirienceException("There can't be multiple interviewers with the same expirience per appointment!");
+            throw new InterviewersWithTheSameExpirienceException("There can't be multiple interviewers with the same experience per appointment!");
         }
 
         return appointmentRepository.insert(appointment);
