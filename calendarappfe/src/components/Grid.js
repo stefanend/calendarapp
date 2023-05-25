@@ -56,7 +56,7 @@ export default function ResponsiveGrid({ openAlert }) {
     setWeekEnd(endDate);
 
     fetch(
-      `http://localhost:8080/api/appointments/date?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
+      `http://localhost:8080/api/appointments?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
       { method: 'GET' }
     )
       .then((response) => {
