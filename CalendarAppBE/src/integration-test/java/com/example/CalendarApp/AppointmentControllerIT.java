@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -73,18 +72,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void getInterviewsTest() throws Exception {
-
-        mockMvc.perform(get("/api/appointments")
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(2)))
-                .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[1].id").value(2));
-    }
-
-    @Test
-    void getAppointmentsByDateRange() throws Exception {
+    void getAppointmentsByDateRangeTest() throws Exception {
         mockMvc.perform(get("/api/appointments/date")
                 .contentType(MediaType.APPLICATION_JSON)
                         .param("startDate", "2023-05-08T11:07:39.000Z")
@@ -94,7 +82,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void insertAppointment() throws Exception {
+    void insertAppointmentTest() throws Exception {
         mockMvc.perform(post("/api/appointments")
                 .contentType(MediaType.APPLICATION_JSON).content(BODY_APPOINTMENT)
                 .accept(MediaType.APPLICATION_JSON))
@@ -102,7 +90,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void insertAppointmentException() throws Exception {
+    void insertAppointmentThrowsInterviewersWithTheSameExpirienceExceptionTest() throws Exception {
         mockMvc.perform(post("/api/appointments")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(BODY_APPOINTMENT_EXCEPTION)
@@ -126,7 +114,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void insertCandidateWhenAppointmentDoesNotExistTest() throws Exception {
+    void insertCandidateThrowsWhenAppointmentDoesNotExistTest() throws Exception {
         mockMvc.perform(post("/api/appointments/candidate/{id}", "101")
                         .contentType(MediaType.APPLICATION_JSON).content(BODY_REQUEST_CANDIDATE)
                         .accept(MediaType.APPLICATION_JSON))
@@ -136,7 +124,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void insertInterviewer() throws Exception {
+    void insertInterviewerTest() throws Exception {
         mockMvc.perform(post("/api/appointments/interviewer/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(BODY_INTERVIEWER)
@@ -145,7 +133,7 @@ public class AppointmentControllerIT extends TestConfig {
     }
 
     @Test
-    void insertInterviewerException() throws Exception {
+    void insertInterviewerAppointmentNotFoundExceptionTest() throws Exception {
         mockMvc.perform(post("/api/appointments/interviewer/{id}", "3")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(BODY_INTERVIEWER)

@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface AppointmentService {
 
-    public List<Appointment> getAppointments();
     public List<Appointment> getAppointmentsInDateRange(LocalDateTime startDate, LocalDateTime endDate);
     public Appointment insertAppointment(Appointment appointment);
     public String deleteAppointment(int id);

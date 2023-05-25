@@ -123,7 +123,7 @@ export default function ResponsiveGrid({ openAlert }) {
               }}
             >
               <div style={{ marginBottom: '5px' }}>
-                Self scheduling calendar - weekly
+                <i>Self scheduling calendar - weekly</i>
               </div>
             </Item>
           </Grid>

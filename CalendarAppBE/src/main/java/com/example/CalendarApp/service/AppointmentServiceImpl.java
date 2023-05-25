@@ -38,17 +38,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointment> getAppointments() {
-        return appointmentRepository.findAll();
-    }
-
-    @Override
     public List<Appointment> getAppointmentsInDateRange(LocalDateTime startDate, LocalDateTime endDate) {
         return appointmentRepository.findByDayBetweenOrderByDayAsc(startDate, endDate)
                 .stream()
                 .filter(byDayBetweenOrderByDayAsc1 ->
-                        byDayBetweenOrderByDayAsc1.getDay().getHour() - 2 >= 9
-                && byDayBetweenOrderByDayAsc1.getDay().getHour() - 2 <= 16
+                        byDayBetweenOrderByDayAsc1.getDay().getHour() >= 9
+                && byDayBetweenOrderByDayAsc1.getDay().getHour() <= 16
                 && (byDayBetweenOrderByDayAsc1.getDay().getMinute() == 0
                                 || byDayBetweenOrderByDayAsc1.getDay().getMinute() == 30))
                 .collect(Collectors.toList());

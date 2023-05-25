@@ -58,21 +58,6 @@ public class AppointmentControllerTest {
     }
 
     @Test
-    void getInterviewsTest() {
-        Appointment a1 = new Appointment(1, LocalDateTime.now(), null, List.of());
-        Appointment a2 = new Appointment(2, LocalDateTime.now(), null, List.of());
-        List<Appointment> appointments = List.of(a1, a2);
-
-        when(service.getAppointments()).thenReturn(appointments);
-
-        ResponseEntity<List<Appointment>> response = controller.getInterviews();
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertTrue(response.hasBody());
-        assertEquals(appointments.size(), response.getBody().size());
-    }
-
-    @Test
     void getAppointmentsByDateRangeTest() {
         LocalDateTime day1 = LocalDateTime.of(2023, 5, 22, 11, 0);
         LocalDateTime day2 = LocalDateTime.of(2023, 5, 23, 9, 30);

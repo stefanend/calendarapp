@@ -27,12 +27,7 @@ public class AppointmentController {
     @Autowired
     private SequenceGeneratorService sequenceGeneratorService;
 
-    @GetMapping
-    public ResponseEntity<List<Appointment>> getInterviews() {
-        return ResponseEntity.ok(appointmentService.getAppointments());
-    }
-
-    @GetMapping("/date")
+    @GetMapping()
     public ResponseEntity<List<Appointment>> getAppointmentsByDateRange(@RequestParam("startDate")
                                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                             LocalDateTime startDate,

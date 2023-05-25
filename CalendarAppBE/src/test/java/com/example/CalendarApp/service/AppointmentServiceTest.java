@@ -59,22 +59,7 @@ public class AppointmentServiceTest {
         Exception exception = assertThrows(InterviewersWithTheSameExpirienceException.class,
                 () -> service.insertAppointment(appointment));
 
-        assertThat(exception).hasMessage("There can't be multiple interviewers with the same expirience per appointment!");
-    }
-
-    @Test
-    void getAppointmentsTest() {
-        Appointment a1 = new Appointment(1, now(), null, List.of());
-        Appointment a2 = new Appointment(2, now(), null, List.of());
-        Appointment a3 = new Appointment(3, now(), null, List.of());
-        List<Appointment> expected = List.of(a1, a2, a3);
-
-        when(appointmentRepository.findAll()).thenReturn(expected);
-
-        List<Appointment> actual = service.getAppointments();
-
-        assertEquals(expected.size(), actual.size());
-        assertTrue(actual.containsAll(expected));
+        assertThat(exception).hasMessage("There can't be multiple interviewers with the same experience per appointment!");
     }
 
     @Test
@@ -127,6 +112,9 @@ public class AppointmentServiceTest {
         Candidate candidate = new Candidate(1, "Tatjana", "Kunic");
 
         when(appointmentRepository.findById(1)).thenReturn(Optional.of(appointment));
+        when(appointmentRepository.save(any(Appointment.class))).thenReturn(appointment);
+
+        appointment = service.insertCandidate(1, candidate);
 
         assertNotNull(appointment.getCandidate());
         assertEquals(candidate, appointment.getCandidate());
