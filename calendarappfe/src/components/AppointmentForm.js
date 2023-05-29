@@ -97,6 +97,7 @@ export default function AppointmentForm({
     let dateAndTime = new Date(date.toDate());
     dateAndTime.setUTCHours(Number.parseInt(time.slice(0, 2)));
     dateAndTime.setUTCMinutes(Number.parseInt(time.slice(3)));
+    dateAndTime.setUTCSeconds(0);
 
     let candidate = null;
     let experiencedInterviewer = null;
