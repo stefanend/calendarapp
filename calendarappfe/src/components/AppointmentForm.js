@@ -156,7 +156,7 @@ export default function AppointmentForm({
     if (inexperiencedInterviewer)
       appointment.interviewers.push(inexperiencedInterviewer);
 
-    fetch(`http://localhost:8080/api/appointments`, {
+    fetch(`/api/appointments`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain',

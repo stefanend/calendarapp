@@ -30,7 +30,7 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
       candidate.firstName = words[0];
       candidate.lastName = words[1] || '';
       fetch(
-        `http://localhost:8080/api/appointments/candidate/${appointment.id}`,
+        `/api/appointments/candidate/${appointment.id}`,
         {
           method: 'POST',
           headers: {
@@ -60,7 +60,7 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
       interviewer.lastName = words[1] || '';
       interviewer.experienced = experienced;
       fetch(
-        `http://localhost:8080/api/appointments/interviewer/${appointment.id}`,
+        `/api/appointments/interviewer/${appointment.id}`,
         {
           method: 'POST',
           headers: {
@@ -103,7 +103,7 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
   };
 
 	const deleteAppointment = () => {
-		fetch(`http://localhost:8080/api/appointments/${appointment.id}`, { 
+		fetch(`/api/appointments/${appointment.id}`, { 
 			method: 'DELETE',
 			headers: { 'Content-Type': 'text/plain;charset=UTF-8;application/json' } 
 		})
