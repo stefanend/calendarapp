@@ -10,6 +10,7 @@ import dayjs from 'dayjs';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import AppointmentForm from './AppointmentForm';
+import { url } from '../serverURL';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -56,7 +57,7 @@ export default function ResponsiveGrid({ openAlert }) {
     setWeekEnd(endDate);
 
     fetch(
-      `/api/appointments?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
+      `${url}/api/appointments?startDate=${startDate.toISOString()}&endDate=${endDate.toISOString()}`,
       { method: 'GET' }
     )
       .then((response) => {

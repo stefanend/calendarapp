@@ -14,6 +14,7 @@ import BasicDatePicker from './DatePicker';
 import { useState } from 'react';
 import moment from 'moment/moment';
 import dayjs from 'dayjs';
+import { url } from '../serverURL';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -155,8 +156,7 @@ export default function AppointmentForm({
       appointment.interviewers.push(experiencedInterviewer);
     if (inexperiencedInterviewer)
       appointment.interviewers.push(inexperiencedInterviewer);
-
-    fetch(`/api/appointments`, {
+    fetch(`${url}/api/appointments`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json, text/plain',

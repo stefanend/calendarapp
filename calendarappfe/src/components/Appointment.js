@@ -11,6 +11,7 @@ import { useState } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './styles/Appointment.css';
 import dayjs from 'dayjs';
+import { url } from '../serverURL';
 
 const Appointment = ({ appointment, openAlert, triggerFetch }) => {
   const [candidate, setCandidate] = useState({
@@ -30,7 +31,7 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
       candidate.firstName = words[0];
       candidate.lastName = words[1] || '';
       fetch(
-        `/api/appointments/candidate/${appointment.id}`,
+        `${url}/api/appointments/candidate/${appointment.id}`,
         {
           method: 'POST',
           headers: {
@@ -59,8 +60,9 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
       interviewer.firstName = words[0];
       interviewer.lastName = words[1] || '';
       interviewer.experienced = experienced;
+      console.log(interviewer);
       fetch(
-        `/api/appointments/interviewer/${appointment.id}`,
+        `${url}/api/appointments/interviewer/${appointment.id}`,
         {
           method: 'POST',
           headers: {
@@ -103,7 +105,7 @@ const Appointment = ({ appointment, openAlert, triggerFetch }) => {
   };
 
 	const deleteAppointment = () => {
-		fetch(`/api/appointments/${appointment.id}`, { 
+		fetch(`${url}/api/appointments/${appointment.id}`, { 
 			method: 'DELETE',
 			headers: { 'Content-Type': 'text/plain;charset=UTF-8;application/json' } 
 		})
