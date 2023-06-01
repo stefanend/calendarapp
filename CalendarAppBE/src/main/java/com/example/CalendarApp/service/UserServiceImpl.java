@@ -17,14 +17,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public User login(User user) {
-
-        Optional<User> optionalUser = userRepository.findByUsername(user.getUsername());
-
-        return new User(1 ,optionalUser.get().getUsername(), optionalUser.get().getPassword(), "", "");
-    }
-
-    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> optionalUser = userRepository.findByUsername(username);
         User user = optionalUser.get();
