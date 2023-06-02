@@ -73,7 +73,7 @@ public class AppointmentControllerIT extends TestConfig {
 
     @Test
     void getAppointmentsByDateRangeTest() throws Exception {
-        mockMvc.perform(get("/api/appointments/date")
+        mockMvc.perform(get("/api/appointments")
                 .contentType(MediaType.APPLICATION_JSON)
                         .param("startDate", "2023-05-08T11:07:39.000Z")
                         .param("endDate", "2023-06-08T11:07:39.000Z")
