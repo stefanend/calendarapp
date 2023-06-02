@@ -39,6 +39,10 @@ public class SecurityConfiguration {
         http.csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers(HttpMethod.GET, "/api/appointments").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/appointments").hasAnyRole("ADMIN", "EXPERIENCED_INTERVIEWER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/appointments/**").hasRole("ADMIN")
+                        .requestMatchers("/api/appointments/interviewer/**").hasAnyRole("ADMIN", "EXPERIENCED_INTERVIEWER", "INEXPERIENCED_INTERVIEWER")
+                        .requestMatchers("/api/appointments/candidate/**").hasAnyRole("ADMIN", "CANDIDATE")
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form.permitAll())

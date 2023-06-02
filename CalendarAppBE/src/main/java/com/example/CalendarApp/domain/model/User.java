@@ -7,6 +7,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 
 @Document(collection = "user")
 @Data
@@ -24,7 +26,7 @@ public class User {
 
     private String password;
 
-    private String roles;
+    private List<Role> roles;
 
     private String email;
 }
